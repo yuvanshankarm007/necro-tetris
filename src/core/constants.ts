@@ -201,6 +201,27 @@ export const WALL_KICK_DATA_I: Record<string, [number, number][]> = {
   '0->3': [[0, 0], [-1, 0], [2, 0], [-1, 2], [2, -1]],
 };
 
+// Real-world Memory Allocation Specs mapped to falling page frames
+export const ALLOCATION_METADATA: Record<
+  TetrominoType,
+  { tag: string; name: string; sizeKb: number; description: string }
+> = {
+  I: { tag: 'BUF_POOL', name: 'Buffer Pool', sizeKb: 1024, description: 'Contiguous I/O Stream Cache' },
+  O: { tag: 'STK_FRM', name: 'Stack Frame', sizeKb: 512, description: 'Call Stack Activation Record' },
+  T: { tag: 'HEAP_OBJ', name: 'Heap Object', sizeKb: 384, description: 'Dynamic Runtime Instance' },
+  S: { tag: 'WRK_MEM', name: 'Worker Cache', sizeKb: 384, description: 'Thread-Local Scratch Buffer' },
+  Z: { tag: 'KV_CACHE', name: 'LLM KV-Cache', sizeKb: 384, description: 'Attention Key-Value Token Block' },
+  J: { tag: 'SOCK_FD', name: 'Socket Stream', sizeKb: 384, description: 'TCP Ingress / WebSocket Packet' },
+  L: { tag: 'DOM_NODE', name: 'Virtual DOM', sizeKb: 384, description: 'Virtual Node Render Tree' },
+};
+
+export const HEX_ROW_ADDRESSES: string[] = [
+  '0x0000', '0x0200', '0x0400', '0x0600', '0x0800',
+  '0x0A00', '0x0C00', '0x0E00', '0x1000', '0x1200',
+  '0x1400', '0x1600', '0x1800', '0x1A00', '0x1C00',
+  '0x1E00', '0x2000', '0x2200', '0x2400', '0x2600'
+];
+
 // Theme Color Palettes
 export const THEME_CONFIG: Record<
   DisplayTheme,
@@ -215,7 +236,7 @@ export const THEME_CONFIG: Record<
   }
 > = {
   soviet_green: {
-    name: '1984 Soviet Green (Elektronika 60)',
+    name: '1984 Elektronika-60 RAM Matrix',
     bg: '#040b05',
     gridLine: 'rgba(51, 255, 102, 0.12)',
     primaryText: '#33ff66',
@@ -232,7 +253,7 @@ export const THEME_CONFIG: Record<
     },
   },
   soviet_amber: {
-    name: '1984 Soviet Amber (Elektronika 60)',
+    name: '1989 MS-DOS DEFRAG (Norton SpeedDisk)',
     bg: '#0e0802',
     gridLine: 'rgba(255, 170, 0, 0.12)',
     primaryText: '#ffaa00',
@@ -249,7 +270,7 @@ export const THEME_CONFIG: Record<
     },
   },
   gothic_blood: {
-    name: 'Gothic Crypt (Blood & Tombstone)',
+    name: 'Kubernetes Pod Chaos (OOM Stress Test)',
     bg: '#0a0305',
     gridLine: 'rgba(255, 42, 75, 0.12)',
     primaryText: '#ff2a4b',
@@ -266,7 +287,7 @@ export const THEME_CONFIG: Record<
     },
   },
   spectral_cyan: {
-    name: 'Séance Ectoplasm (Spectral Ghost)',
+    name: 'LLM Agent KV-Cache Defragmenter',
     bg: '#02090d',
     gridLine: 'rgba(0, 240, 255, 0.12)',
     primaryText: '#00f0ff',

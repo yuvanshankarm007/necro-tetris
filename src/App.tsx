@@ -394,9 +394,9 @@ export const App: React.FC = () => {
               <div className="flex items-center justify-between pb-2 mb-2 border-b border-zinc-800/80 text-[10px] font-mono text-zinc-500">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
-                  ELEKTRONIKA-60 [TERMINAL_01]
+                  ELEKTRONIKA-60 [HEAP_0x0000]
                 </span>
-                <span style={{ color: config.primaryText }}>60 FPS V-SYNC • DAS/ARR ACTIVE</span>
+                <span style={{ color: config.primaryText }}>60 FPS • 2D BIN-PACKING ACTIVE</span>
               </div>
 
               <div className="relative">
@@ -422,40 +422,46 @@ export const App: React.FC = () => {
                 )}
 
                 {engine.state.gameOver && (
-                  <div className="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center z-30 p-6 text-center animate-in fade-in duration-300">
+                  <div className="absolute inset-0 bg-black/92 backdrop-blur-md flex flex-col items-center justify-center z-30 p-6 text-center animate-in fade-in duration-300">
                     <Skull className="w-12 h-12 text-red-500 mb-2 animate-bounce" />
-                    <h2 className="text-2xl font-bold font-mono text-red-500 tracking-widest uppercase mb-1">
-                      ETERNAL REST
+                    <h2 className="text-xl font-bold font-mono text-red-500 tracking-wider uppercase mb-1">
+                      KERNEL PANIC: OUT OF MEMORY
                     </h2>
-                    <p className="text-xs text-zinc-400 font-mono mb-4">
-                      The crypt is sealed. The Architect's ghost records your epitaph.
+                    <p className="text-[11px] text-zinc-400 font-mono mb-4">
+                      Virtual heap exhaustion (OOMKilled). The Profiler has generated a core dump.
                     </p>
 
                     <div className="bg-black/60 border border-zinc-800 rounded p-3 mb-4 w-full text-xs font-mono">
                       <div className="flex justify-between py-0.5">
-                        <span className="text-zinc-500">Final Score:</span>
-                        <span className="font-bold text-zinc-200">
-                          {engine.state.stats.score.toLocaleString()}
+                        <span className="text-zinc-500">RAM Reclaimed:</span>
+                        <span className="font-bold text-emerald-400">
+                          {(engine.state.stats.reclaimedKb / 1024).toFixed(1)} MB
                         </span>
                       </div>
                       <div className="flex justify-between py-0.5">
-                        <span className="text-zinc-500">Exorcisms:</span>
+                        <span className="text-zinc-500">Heap Fragmentation:</span>
+                        <span className="font-bold text-amber-400">
+                          {engine.state.stats.fragmentationRatio}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between py-0.5">
+                        <span className="text-zinc-500">Compactions (4-Line):</span>
                         <span className="font-bold text-cyan-400">
                           {engine.state.stats.exorcisms}
                         </span>
                       </div>
                       {engine.state.stats.tSpins > 0 && (
                         <div className="flex justify-between py-0.5">
-                          <span className="text-zinc-500">T-Spins:</span>
+                          <span className="text-zinc-500">Spin Inserts:</span>
                           <span className="font-bold text-purple-400">
                             {engine.state.stats.tSpins}
                           </span>
                         </div>
                       )}
                       <div className="flex justify-between py-0.5">
-                        <span className="text-zinc-500">Lines Cleared:</span>
+                        <span className="text-zinc-500">Total Score:</span>
                         <span className="font-bold text-zinc-200">
-                          {engine.state.stats.lines}
+                          {engine.state.stats.score.toLocaleString()}
                         </span>
                       </div>
                     </div>
@@ -465,7 +471,7 @@ export const App: React.FC = () => {
                       className="px-4 py-2 bg-red-950/80 hover:bg-red-900 border border-red-700 rounded-lg text-xs font-mono font-bold text-red-200 flex items-center gap-2 cursor-pointer transition-colors shadow-lg"
                     >
                       <RotateCcw className="w-4 h-4" />
-                      <span>Reanimate Silicon (Restart)</span>
+                      <span>Reboot Kernel & Compact Heap</span>
                     </button>
                   </div>
                 )}

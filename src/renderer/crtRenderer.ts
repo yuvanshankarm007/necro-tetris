@@ -57,7 +57,7 @@ export class CRTRenderer {
     const cellSize = Math.floor(height / BOARD_VISIBLE_HEIGHT);
     const offsetX = Math.floor((width - BOARD_WIDTH * cellSize) / 2);
 
-    // 1. Draw Grid lines
+    // 1. Draw Grid lines & Hex Memory Row Addresses
     ctx.strokeStyle = themeConfig.gridLine;
     ctx.lineWidth = 1;
     for (let c = 0; c <= BOARD_WIDTH; c++) {
@@ -73,14 +73,28 @@ export class CRTRenderer {
       ctx.stroke();
     }
 
-    // 2. Draw Locked Matrix Cells (Rows 2 to 21)
-    for (let y = BOARD_BUFFER_HEIGHT; y < BOARD_BUFFER_HEIGHT + BOARD_VISIBLE_HEIGHT; y++) {
-      const displayY = y - BOARD_BUFFER_HEIGHT;
-      for (let x = 0; x < BOARD_WIDTH; x++) {
+    // Hex Memory Addresses on the left rail
+    ctx.save();
+    ctx.font = '8px monospace';
+    ctx.fillStyle = themeConfig.gridLine.replace('0.12', '0.45');
+    ctx.textAlign = 'right';
+    for (let r = 0; r < BOARD_VISIBLE_HEIGHT; r++) {
+      const hex = `0x${(r * 0x0200).toString(16).toUpperCase().padStart(4, '0')}`;
+      ctx.fillText(hex, offsetX - 4, r * cellSize + cellSize * 0.65);
+    }
+    ctx.restore();
+
+    // 2. Draw Locked Matrix Cells and Highlight Memory Leaks (Holes)
+    for (let x = 0; x < BOARD_WIDTH; x++) {
+      let blockSeen = false;
+      for (let y = BOARD_BUFFER_HEIGHT; y < BOARD_BUFFER_HEIGHT + BOARD_VISIBLE_HEIGHT; y++) {
+        const displayY = y - BOARD_BUFFER_HEIGHT;
         const cell = matrix[y][x];
+        const drawX = offsetX + x * cellSize;
+        const drawY = displayY * cellSize;
+
         if (cell.filled) {
-          const drawX = offsetX + x * cellSize;
-          const drawY = displayY * cellSize;
+          blockSeen = true;
           this.drawBlock(
             ctx,
             drawX,
@@ -91,6 +105,17 @@ export class CRTRenderer {
             cell.state || 'normal',
             isSovietMode
           );
+        } else if (blockSeen) {
+          // Fragmentation Hole / Uncollected Memory Leak
+          ctx.save();
+          ctx.strokeStyle = 'rgba(239, 68, 68, 0.45)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([2, 2]);
+          ctx.strokeRect(drawX + 2, drawY + 2, cellSize - 4, cellSize - 4);
+          ctx.setLineDash([]);
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.15)';
+          ctx.fillRect(drawX + 2, drawY + 2, cellSize - 4, cellSize - 4);
+          ctx.restore();
         }
       }
     }
@@ -199,21 +224,31 @@ export class CRTRenderer {
     const config = THEME_CONFIG[theme];
     const color = config.colors[type];
 
+    const allocLetter: Record<TetrominoType, string> = {
+      I: 'B', // Buffer
+      O: 'S', // Stack
+      T: 'H', // Heap
+      S: 'W', // Worker
+      Z: 'K', // KV-Cache
+      J: 'N', // Net/Socket
+      L: 'D', // DOM
+    };
+    const tag = allocLetter[type] || 'H';
+
     if (isSovietMode) {
-      // 1984 Elektronika 60 Text Mode: Render as green/amber bracket characters "[ ]"
+      // 1984 Elektronika 60 Text Mode: Render as green/amber bracket characters with allocation tag "[H]"
       ctx.save();
       ctx.fillStyle = color;
       ctx.shadowColor = config.accentGlow;
       ctx.shadowBlur = isActive ? 12 : 5;
-      ctx.font = `bold ${Math.floor(size * 0.72)}px monospace`;
+      ctx.font = `bold ${Math.floor(size * 0.65)}px monospace`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(config.asciiBlock, x + size / 2, y + size / 2);
+      ctx.fillText(`[${tag}]`, x + size / 2, y + size / 2);
       ctx.restore();
     } else {
-      // Gothic Crypt Mode: Render as carved stone slab with bevel and glowing core
+      // Defrag Cluster Mode: Render with inner bevel and memory tag
       ctx.save();
-      // Outer stone block
       ctx.fillStyle = color;
       ctx.shadowColor = isActive ? config.primaryText : 'rgba(0,0,0,0.6)';
       ctx.shadowBlur = isActive ? 10 : 3;
@@ -228,10 +263,16 @@ export class CRTRenderer {
       ctx.fillRect(x + 2, y + size - 5, size - 4, 3);
       ctx.fillRect(x + size - 5, y + 2, 3, size - 4);
 
-      // Tombstone or rotting state marker
-      if (state === 'rotting') {
-        ctx.fillStyle = '#1c1917';
-        ctx.fillRect(x + size * 0.3, y + size * 0.3, size * 0.4, size * 0.4);
+      // Allocation letter overlay
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      ctx.font = `bold ${Math.floor(size * 0.45)}px monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(tag, x + size / 2, y + size / 2);
+
+      if (state === 'rotting' || state === 'fragmented') {
+        ctx.fillStyle = '#ef4444';
+        ctx.fillRect(x + size * 0.35, y + size * 0.35, size * 0.3, size * 0.3);
       }
 
       ctx.restore();

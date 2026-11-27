@@ -1,124 +1,126 @@
-# Devpost Submission Write-Up: GraveStack (Kiroween 2026)
+# Devpost Submission: Defrag84 — The Autonomous Cloud Memory Garbage Collector
 
 ## 📌 Project Overview
-- **Project Name**: GraveStack: The 1984 Silicon Séance
-- **Tagline**: Bringing 1984 monochrome terminal graphics and competitive puzzle spellcasting back to life with an autonomous Kiro Crew.
-- **Category**: Resurrection
-- **Bonus Prizes Considered**:
-  - Best Kiro Crew App
-  - Best Demo
+- **Project Name**: Defrag84: The Autonomous Cloud Memory Garbage Collector
+- **Tagline**: Resurrecting 1984 2D bin-packing and MS-DOS DEFRAG to solve modern Kubernetes container memory bloat and LLM KV-cache fragmentation with an autonomous multi-agent Kiro Crew.
+- **Hackathon**: Kiroween 2026
+- **Category**: Resurrection ("Bring your favorite dead technology back to life. Reimagine obsolete tech with today’s innovations or solving tomorrow’s problems.")
+- **Target Bonus Prizes**:
+  - Best Kiro Crew App (Multi-agent system daemons coordinating over MCP, A2A, and AG-UI)
+  - Best Demo (100% web-native, zero-crash procedural Web Audio synth and interactive Canvas CRT renderer)
   - Social Blitz Prize (`#KiroweenHackathon26`)
   - Bonus Blog Prize
 
 ---
 
-## 💡 Inspiration
-In 1984, before colorful home consoles or graphical windowing systems, computer scientists compiled mathematical block-fitting puzzles onto monochrome Soviet phosphor screens (Elektronika 60) using raw ASCII text bracket characters (`[ ]`). In the 1990s, competitive puzzle games introduced mystical spellcasting mechanics that forced opponents to battle through dense fog, inverted gravity, and cursed blocks—a brilliant mechanic lost to time.
+## 💡 Inspiration: The Resurrection Innovation
 
-For **Kiroween 2026**, we wanted to bring both dead technologies back to life. But instead of a simple emulator, we asked: **What if the vintage silicon itself was haunted? What if modern autonomous AI agents (Kiro Crew) inhabited the terminal alongside the player?**
+In 1984, computer scientist Alexey Pajitnov was conducting academic research on combinatorial geometry and 2D bin-packing algorithms at the Soviet Academy of Sciences Dorodnitsyn Computing Centre, testing placements on an Elektronika 60 monochrome terminal. In the 1990s, utilities like **MS-DOS DEFRAG** and **Norton SpeedDisk** turned disk and memory compaction into an iconic, tactile visual experience. Over the decades, these spatial roots were forgotten, reduced to simple casual video games while enterprise systems moved to black-box cloud dashboards.
+
+Meanwhile, in 2026, modern cloud infrastructure faces a multi-billion dollar crisis:
+1. **Container Memory Bloat & OOM Kills**: Microservices running in Kubernetes clusters frequently crash due to Linux Kernel Out-Of-Memory (`OOMKilled`) panics caused by uncollected heap allocations and internal memory fragmentation.
+2. **LLM KV-Cache Context Fragmentation**: Large Language Model inference engines (such as vLLM and PagedAttention) suffer severe GPU/CPU RAM fragmentation across irregular prompt lengths.
+3. **The Loss of Tactile Memory Observability**: DevOps engineers have lost tactile visual awareness of where memory fragmentation actually occurs in physical address space.
+
+**We asked**: *What if we resurrected 1984 2D bin-packing and 1980s visual defragmentation not as a toy, but as an autonomous cloud memory management engine? What if an autonomous crew of AI daemons (Kiro Crew) collaborated to optimize memory compaction in real time before kernel panics strike?*
+
+That is **Defrag84**.
 
 ---
 
-## 👻 What It Does
-**GraveStack** is an atmospheric falling-block puzzle game that bridges 1980s retro computing with modern agentic AI:
+## ⚡ What It Does
 
-1. **Dual Display Reanimation**:
-   - **1984 Elektronika 60 Terminal**: Authentic ASCII characters `[ ]`, scanlines, green/amber phosphor decay, and CRT curvature.
-   - **Gothic Crypt**: Stone-etched blocks, runic borders, and glowing exorcism particle bursts.
+**Defrag84** maps physical container heap memory directly into an interactive 10x20 page frame matrix (`0x0000` to `0x2600`, 25.6 MB virtual heap space):
 
-2. **Cursed Spellcasting Mechanics**:
-   - *Graveyard Fog*: Dense mist obscures the bottom matrix.
-   - *Poltergeist Shove*: Sudden telekinetic lateral displacements.
-   - *Soul Inversion*: Gravity vortex pulls falling blocks upward.
-   - *Tombstone Crumble*: Hard-dropped blocks rot into brittle bone debris.
-   - *Exorcism Purge*: Clearing 4 lines simultaneously purges active curses.
+1. **Physical Memory Ingress (7 Polyomino Allocation Types)**:
+   - Each falling page block represents an active system memory allocation tagged with an active `PID`, allocation type, and size in KB:
+     - `BUF_POOL` (4-block cyan bar): Contiguous I/O buffer pool (256 KB).
+     - `STK_FRM` (J-piece blue): Thread execution stack frame (192 KB).
+     - `HEAP_OBJ` (L-piece orange): Dynamic runtime object allocation (192 KB).
+     - `WRK_MEM` (O-piece yellow): Background worker memory segment (256 KB).
+     - `KV_CACHE` (S-piece green): LLM attention KV-cache context slice (160 KB).
+     - `SOCK_FD` (T-piece purple): Network socket descriptor table (192 KB).
+     - `DOM_NODE` (Z-piece red): DOM / JSON document tree node (160 KB).
 
-3. **100% Procedural Web Audio API Synthesizer**:
-   - Zero external audio files or network dependencies.
-   - Generates an original haunting 8-bit gothic dirge in D minor with dual square/sawtooth oscillators and dynamic lowpass resonance, alongside tactile procedural sound effects.
+2. **Atomic Major Garbage Collection Compactions**:
+   - Completing a full 10-column memory row executes an atomic **Major Garbage Collection Cycle**, physically compacting the heap, freeing RAM, lowering the live Fragmentation Ratio, and cooling Heap Pressure.
+   - Tactical spin insertions (`T-Spin Compaction`) trigger high-efficiency compaction multipliers.
 
-4. **Kiro Crew Multi-Agent Séance**:
-   - **The Architect's Ghost**: Tactical grandmaster co-pilot calculating optimal placements using Pierre Dellacherie heuristics. Features an autonomous **"Summon Ghost to Play"** mode.
-   - **The Poltergeist**: Chaos adversary unleashing curses when combo streaks climb.
-   - **The Gravedigger**: Crypt narrator recording statistics and reading epitaphs upon game over.
-   - **Interactive Séance Terminal**: Live in-game communication window allowing players to converse with the spirits.
+3. **Multi-Engine CRT Observability**:
+   - **1984 RAM Hex Terminal (Elektronika 60)**: Pure monochromatic phosphor green terminal with raw hex address rail (`0x0000`–`0x2600`), scanlines, and phosphor decay persistence.
+   - **MS-DOS DEFRAG (Norton SpeedDisk)**: Classic 1990s blue/white block matrix highlighting fragmented memory holes and leaked blocks in bright red.
+   - **K8s Chaos Engine**: High-contrast production container monitoring dashboard with pulsating error thresholds.
+   - **LLM KV-Cache Monitor**: Cyan/magenta neural transformer KV-cache context block allocator.
+
+4. **Kiro Crew Multi-Agent Daemon System**:
+   - **The GC Optimizer (`gc-optimizer`)**: Autonomous 2D bin-packing compaction daemon powered by a multi-variable Pierre Dellacherie heuristic solver. Features an autonomous **"Engage AI Compactor"** auto-play mode with live explanatory telemetry.
+   - **The Chaos Monkey (`chaos-monkey`)**: Production fault injector simulating container failure modes: Memory Leak injection, noisy-neighbor Context Switches, Inverted Pointer gravity, and ECC Bit Rot memory corruption.
+   - **The Memory Profiler (`memory-profiler`)**: Real-time eBPF observability daemon computing live fragmentation ratios, tracking compaction throughput in MB/s, and generating kernel core dumps on OOM crashes.
+
+5. **100% Procedural Web Audio API Synthesizer**:
+   - Zero external audio files or network dependencies (guaranteed zero asset drops or CORS errors during live demos).
+   - Generates an original haunting 8-bit minor-key crypt dirge with dual pulse wave oscillators and lowpass filter resonance, alongside tactile mechanical relay clicks and compaction chime chords.
+
+6. **Tournament-Grade Responsive Controls**:
+   - Built-in Delayed Auto-Shift (**DAS = 135ms**), Auto-Repeat Rate (**ARR = 25ms**), and Soft Drop Factor (**SDF = 30ms**) for instant, ultra-responsive tactile memory compaction.
 
 ---
 
 ## 🤖 Detailed Write-Up: How Kiro Was Used
 
-### 1. Kiro IDE, CLI, Web, and Kiro Crew
-We leveraged Kiro's end-to-end toolchain throughout the build:
-- **Kiro Crew** was the centerpiece: enabling three distinct custom agents (`architect-ghost`, `poltergeist`, `gravedigger`) to collaborate asynchronously using event-driven state hooks.
+### 1. Kiro Tooling (IDE, CLI, Web, and Kiro Crew)
+We utilized Kiro's unified ecosystem across the entire engineering lifecycle:
+- **Kiro Crew** served as the orchestration backbone: coordinating our three autonomous system daemons (`gc-optimizer`, `chaos-monkey`, `memory-profiler`) through asynchronous event hooks.
 - **Kiro CLI** automated our property-based testing pipelines via background hooks.
-- **Kiro IDE** enabled seamless editing across our Canvas renderer, Web Audio synthesizer, and grid state machine.
+- **Kiro IDE** enabled rapid iterations across our pure mathematical game engine, Canvas CRT renderer, and Web Audio procedural synthesizer.
 
-### 2. Custom Agents
-We created three specialized custom agents in `.kiro/crew/`:
-- `architect-ghost.json`: Analyzes the matrix, spots spin setups, and drives autonomous auto-play.
-- `poltergeist.json`: Monitors player combos and triggers dynamic environmental curses.
-- `gravedigger.json`: Preserves graveyard lore, tracks score milestones, and rings funeral bells.
+### 2. Custom Agents (`.kiro/crew/`)
+We architected three specialized system daemons defined in `.kiro/crew/`:
+- `architect-ghost.json` (**The GC Optimizer**): A mathematical compaction daemon calculating optimal page frame placements via Pierre Dellacherie 2D bin-packing heuristics. Minimizes fragmentation holes and drives the autonomous auto-compactor mode.
+- `poltergeist.json` (**The Chaos Monkey**): A resilience engineering daemon inspired by Netflix Chaos Monkey. Injects uncollectible memory leaks, context switches, pointer inversions, and ECC bit-rot anomalies to test garbage collector robustness under pressure.
+- `gravedigger.json` (**The Memory Profiler**): An eBPF-grade observability sentinel that continuously monitors real-time heap pressure (`heapUsedKb / heapMaxKb`), computes live fragmentation ratios, and logs post-mortem kernel core dumps when Out-Of-Memory limits are breached.
 
 ### 3. Agent Hooks (`.kiro/hooks/`)
-We implemented automated agent hooks:
-- `pre-commit.js`: Automatically triggers `vitest` Property-Based Tests before code changes are committed, failing closed if mathematical invariants are breached.
-- `audit-invariants.js`: Audits rotational wall-kicks, 7-bag permutation distributions, and matrix boundaries.
+We configured automated agent hooks to enforce engineering guardrails:
+- `pre-commit.js`: Automatically triggers `vitest` Property-Based Tests before any code changes can be committed to Git, failing closed if mathematical invariants are violated.
+- `audit-invariants.js`: Audits rotational wall-kicks, 7-bag permutation distributions, and memory buffer boundaries.
 
 ### 4. Spec-Driven Development (`.kiro/specs/`)
 We structured the development using Kiro's formal specifications:
-- `requirements.md`: Outlined functional physics, audio synthesis constraints, and multi-agent roles.
-- `design.md`: Defined the architecture diagram, state transitions, and heuristic evaluation weights.
-- `tasks.md`: Provided a phased, trackable roadmap.
-Compared to "vibe coding", spec-driven development ensured mathematical rigor: rotational matrices and randomizer distributions were formally verified before UI assembly began.
+- `requirements.md`: Formulated the exact memory allocation types, heap pressure formulas, CRT display specifications, and multi-agent roles.
+- `design.md`: Defined the system architecture diagram, the Pierre Dellacherie heuristic evaluation equation, the 3-Tier Agent Protocol Stack, and data structures.
+- `tasks.md`: Provided a phased, trackable roadmap from mathematical foundation to production deployment.
+*Spec-driven development prevented scope creep and ensured mathematical rigor was verified before any UI rendering was built.*
 
-### 5. Steering Docs (`.kiro/steering/`)
-We used three explicit steering files:
-- `tetris-guidelines.md`: Mandated 5-test wall-kicks and 7-bag shuffle fairness.
+### 5. Steering Documents (`.kiro/steering/`)
+We established three explicit steering files:
+- `tetris-guidelines.md`: Mandated 5-test wall-kicks, 7-bag permutation fairness, and 500ms sliding lock delays.
 - `spooky-design-tokens.md`: Locked in exact phosphor green/amber CRT hex values, scanline opacities, and audio volume safety ceilings.
 - `zero-crash-rules.md`: Enforced self-contained offline execution with zero external asset dependencies so judges' live demos never crash.
 
 ### 6. Model Context Protocol (MCP) (`.kiro/mcp.json`)
-We designed an MCP bridge exposing four core game tools:
-- `get_board_state`: Exposes the 10x20 matrix and active piece to external agents.
-- `suggest_move`: Runs heuristic evaluations to return recommended placement coordinates.
-- `cast_curse`: Enables autonomous agents to inject curses into the active game loop.
-- `get_graveyard_stats`: Reports lifetime survival statistics.
+We built a first-class MCP server exposing four core kernel tools to any MCP-compliant agent:
+- `get_heap_telemetry`: Returns real-time heap pressure, reclaimed KB, fragmentation ratio, and compaction cycle count.
+- `suggest_move`: Runs heuristic 2D bin-packing evaluations to return recommended placement coordinates and compaction reasoning.
+- `inject_chaos_load`: Allows external agents or chaos engineers to programmatically inject memory leaks, context switches, pointer inversions, or bit rot.
+- `get_board_state`: Exposes the raw 10x20 physical page matrix with allocation metadata.
 
 ### 7. Property-Based Testing (PBT)
-Using `fast-check` and `vitest`, PBT verified:
-- **Permutation Fairness**: Proved that every 7-piece bag slice contains all 7 distinct shapes without starvation.
-- **Rotational Wall-Kick Bounds**: Proved across thousands of random configurations that rotating near walls never clips out-of-bounds or overlaps locked cells.
-- **Row Drop Preservation**: Proved that line clears preserve cell integrity and drop non-cleared rows accurately.
+Using `fast-check` and `vitest`, we mathematically verified core invariants:
+- **7-Bag Permutation Fairness**: Proved across 100+ random generations that every 7-piece allocation window contains all 7 distinct memory types without starvation.
+- **Rotational Wall-Kick Safety**: Proved across thousands of random configurations that rotating near boundaries or locked blocks never clips out-of-bounds or overwrites occupied memory cells.
+- **Row Compaction Conservation**: Proved that row compactions strictly preserve uncollected cells and decrement heap pressure monotonically.
+- **Ghost Projection Invariant**: Proved ghost coordinates always target the lowest valid placement.
 
 ### 8. Full-Stack Agent Protocol Architecture: MCP + A2A + AG-UI
-Rather than treating agent protocols in isolation, GraveStack implements the modern **3-Tier Agent Protocol Stack**:
-- **Layer 1: MCP (Model Context Protocol)**: Connects agents to tools and game data. Through `.kiro/mcp.json` and our local server bridge, external and local agents access universal endpoints (`get_board_state`, `suggest_move`, `cast_curse`).
-- **Layer 2: A2A (Agent2Agent Protocol)**: Coordinates agent-to-agent collaboration across Kiro Crew. *The Architect's Ghost*, *The Poltergeist*, and *The Gravedigger* communicate via typed event contracts, delegating board analysis, hazard injections, and historical metrics without centralized bottlenecking.
-- **Layer 3: AG-UI (Agent-User Interaction Protocol)**: Streams agent reasoning directly into the human player's interface. The live **Séance Terminal** provides real-time streaming thought telemetry, tactile placement advice, and human-in-the-loop curse triggers.
+Rather than treating agent protocols in isolation, Defrag84 implements the cutting-edge **3-Tier AI Agent Protocol Stack**:
+- **Layer 1: MCP (Model Context Protocol)**: Connects agents to tools and data. Through `.kiro/mcp.json` and our local server bridge, agents access universal endpoints (`get_heap_telemetry`, `suggest_move`, `inject_chaos_load`, `get_board_state`).
+- **Layer 2: A2A (Agent2Agent Protocol)**: Enables autonomous daemon-to-daemon collaboration. The *GC Optimizer*, *Chaos Monkey*, and *Memory Profiler* communicate via signed Agent Cards and typed event contracts, negotiating compaction triggers and chaos fault injections without human intervention.
+- **Layer 3: AG-UI (Agent-User Interaction Protocol)**: Streams agent reasoning directly into the human operator's interface. The live **Séance / Kernel Terminal** renders real-time streaming thought telemetry, tactile placement advice, and human-in-the-loop chaos triggers.
 
 ---
 
-## 🎬 3-Minute Video Demo Script
-
-### [0:00 - 0:35] The Hook & Resurrection Story
-- *Visual*: Close-up on the green phosphor CRT terminal flickering to life with scanlines.
-- *Voiceover*: "In 1984, the first falling-block puzzles were compiled on Soviet monochrome phosphor screens using raw text brackets. Today, for Kiroween 2026, we resurrect the 1984 terminal and forgotten 1990s competitive puzzle spellcasting in **GraveStack: The 1984 Silicon Séance**."
-
-### [0:35 - 1:25] Core Gameplay & Spooky Curses
-- *Visual*: Show fluid gameplay with tactile mechanical sound effects and original 8-bit crypt music.
-- *Action*: Trigger a 3-combo streak. Show The Poltergeist casting **Graveyard Fog** (mist obscures the bottom 8 rows) and **Poltergeist Shove**.
-- *Action*: Perform a 4-line **Exorcism**. Show spectral particle burst and audio chime banishing the active curse.
-
-### [1:25 - 2:15] Kiro Crew Multi-Agent Co-Pilot & Auto-Play
-- *Visual*: Zoom into the **Séance Terminal**. Show live banter between The Architect's Ghost, The Poltergeist, and The Gravedigger.
-- *Action*: Click **"Summon Ghost to Play"**. Show The Architect's Ghost playing high-speed, superhuman placements using real-time Dellacherie heuristics.
-- *Voiceover*: "Notice how our Kiro Crew collaborates in real time: The Architect guides moves, the Poltergeist introduces chaos, and the Gravedigger chronicles your score."
-
-### [2:15 - 2:50] The `.kiro` Architecture & Property-Based Tests
-- *Visual*: Open terminal, display the `/.kiro` tree (specs, steering, hooks, crew JSONs, MCP).
-- *Action*: Run `npm test` showing 4/4 passing Fast-Check property-based tests in 140ms.
-- *Voiceover*: "Built with strict spec-driven development and mathematically verified through property-based testing. 100% web-native, zero external assets, and licensed under GPLv3."
-
-### [2:50 - 3:00] Outro & Call to Action
-- *Visual*: Display title card, GitHub URL, and Kiroween badge.
-- *Voiceover*: "GraveStack is public and open source. Happy hacking, and Happy Kiroween 2026!"
+## 🏆 What We Learned & What's Next
+- **Resurrecting 1984 algorithms solves 2026 problems**: The spatial intuition of 2D bin-packing is directly applicable to modern cloud memory fragmentation and LLM KV-cache management.
+- **Zero-Dependency Resilience is King**: Eliminating external asset fetches ensures that hackathon demos run smoothly offline without broken audio or missing textures.
+- **Next Steps**: We plan to connect Defrag84 directly to live Kubernetes Prometheus / eBPF memory metrics, allowing operators to visualize their actual production cluster memory in real-time CRT phosphor glory!

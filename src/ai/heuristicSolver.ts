@@ -181,9 +181,9 @@ export class HeuristicSolver {
   }
 
   private generateExplanation(lines: number, type: TetrominoType, col: number): string {
-    if (lines === 4) return `Exorcism primed! Drop ${type} into column ${col} for a maximum 4-line clear.`;
-    if (lines > 0) return `Clean line clear detected. Placing ${type} in column ${col}.`;
-    return `Minimizing holes and surface bumpiness. Target column: ${col}.`;
+    if (lines === 4) return `Major GC Compaction primed! Compact ${type} into column ${col} for a 5.12 MB heap reclamation sweep.`;
+    if (lines > 0) return `Linear page compaction detected. Compacting ${type} in column ${col}.`;
+    return `Optimizing 2D bin-packing density to eliminate fragmentation holes. Target column: ${col}.`;
   }
 }
 

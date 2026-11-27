@@ -41,18 +41,24 @@ export class NecroTetrisMCPBridge {
         return recommendation;
       }
 
+      case 'get_heap_telemetry':
+      case 'get_graveyard_stats':
+        return {
+          stats: this.engine.state.stats,
+          fragmentationRatio: `${this.engine.state.stats.fragmentationRatio}%`,
+          reclaimedMb: `${(this.engine.state.stats.reclaimedKb / 1024).toFixed(2)} MB`,
+          heapPressure: `${Math.round((this.engine.state.stats.heapUsedKb / this.engine.state.stats.heapMaxKb) * 100)}%`,
+          oomAlert: this.engine.state.stats.oomAlert,
+          highestRow: this.engine.getHighestFilledRow(),
+          gameOver: this.engine.state.gameOver,
+        };
+
+      case 'inject_chaos_load':
       case 'cast_curse': {
         const curse = (args.curse as CurseType) || 'fog_of_war';
         this.engine.applyCurse(curse);
         return { success: true, activeCurse: this.engine.state.activeCurse };
       }
-
-      case 'get_graveyard_stats':
-        return {
-          stats: this.engine.state.stats,
-          highestRow: this.engine.getHighestFilledRow(),
-          gameOver: this.engine.state.gameOver,
-        };
 
       default:
         throw new Error(`Unknown MCP Tool: ${toolName}`);

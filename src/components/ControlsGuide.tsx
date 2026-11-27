@@ -6,7 +6,7 @@ export const ControlsGuide: React.FC = () => {
     <div className="p-2.5 rounded border border-zinc-800 bg-black/50 backdrop-blur-sm text-[11px] font-mono text-zinc-400 flex flex-wrap items-center justify-between gap-3 w-full max-w-4xl mx-auto">
       <div className="flex items-center gap-1.5 text-zinc-300 font-bold">
         <Keyboard className="w-3.5 h-3.5 text-emerald-400" />
-        <span>Tombstone Controls:</span>
+        <span>Defrag Controls:</span>
       </div>
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1">

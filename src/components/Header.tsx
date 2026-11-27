@@ -38,7 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center gap-3">
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className="text-xl">🎃</span>
+            <span className="text-xl">💾</span>
             <h1
               className="text-lg md:text-xl font-bold font-mono tracking-widest uppercase transition-colors"
               style={{
@@ -46,15 +46,15 @@ export const Header: React.FC<HeaderProps> = ({
                 textShadow: `0 0 10px ${config.accentGlow}`,
               }}
             >
-              NecroBlocks
+              Defrag84
             </h1>
             <span className="text-xs px-2 py-0.5 rounded font-mono bg-purple-950/80 text-purple-300 border border-purple-700/60 flex items-center gap-1">
               <Sparkles className="w-3 h-3 text-purple-400" />
-              1984 Reanimation
+              Autonomous GC
             </span>
           </div>
           <span className="text-[10px] text-zinc-500 font-mono tracking-wide">
-            Kiroween 2026 • Resurrection Category • Powered by Kiro Crew & MCP
+            Kiroween 2026 • Resurrection Category • 1984 2D Bin-Packing for Cloud & AI Memory
           </span>
         </div>
       </div>
@@ -70,9 +70,9 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'bg-emerald-950 text-emerald-300 border border-emerald-700 font-bold'
                 : 'text-zinc-500 hover:text-zinc-300'
             }`}
-            title="1984 Soviet Elektronika 60 Green"
+            title="1984 Elektronika-60 RAM Matrix"
           >
-            🟢 Soviet '84
+            🟢 '84 RAM
           </button>
           <button
             onClick={() => onThemeChange('soviet_amber')}
@@ -81,9 +81,9 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'bg-amber-950 text-amber-300 border border-amber-700 font-bold'
                 : 'text-zinc-500 hover:text-zinc-300'
             }`}
-            title="1984 Soviet Amber Terminal"
+            title="1989 MS-DOS DEFRAG (Norton SpeedDisk)"
           >
-            🟠 Amber '84
+            🟠 DOS Defrag
           </button>
           <button
             onClick={() => onThemeChange('gothic_blood')}
@@ -92,9 +92,9 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'bg-red-950 text-red-300 border border-red-700 font-bold'
                 : 'text-zinc-500 hover:text-zinc-300'
             }`}
-            title="Gothic Crypt (Blood & Stone)"
+            title="Kubernetes Pod Chaos (OOM Stress Test)"
           >
-            🔴 Crypt
+            🔴 K8s Chaos
           </button>
           <button
             onClick={() => onThemeChange('spectral_cyan')}
@@ -103,9 +103,9 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'bg-cyan-950 text-cyan-300 border border-cyan-700 font-bold'
                 : 'text-zinc-500 hover:text-zinc-300'
             }`}
-            title="Séance Ectoplasm"
+            title="LLM Agent KV-Cache Defragmenter"
           >
-            🔵 Spectral
+            🔵 KV-Cache
           </button>
         </div>
 

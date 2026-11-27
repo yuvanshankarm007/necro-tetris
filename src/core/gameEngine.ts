@@ -6,6 +6,7 @@ import {
   TETROMINO_SHAPES,
   LOCK_DELAY_MS,
   MAX_LOCK_RESETS,
+  ALLOCATION_METADATA,
 } from './constants';
 import {
   TetrominoType,
@@ -64,6 +65,11 @@ export class GameEngine {
         combos: 0,
         maxCombo: 0,
         backToBack: false,
+        reclaimedKb: 0,
+        fragmentationRatio: 0,
+        heapUsedKb: 0,
+        heapMaxKb: 25600,
+        oomAlert: false,
         lastAction: undefined,
       },
       gameOver: false,
@@ -106,12 +112,17 @@ export class GameEngine {
     const type = this.randomizer.next();
     this.state.nextPieces = this.randomizer.peek(5);
     const spawnPos = SPAWN_COORDINATES[type];
+    const meta = ALLOCATION_METADATA[type];
+    const randomPid = 1000 + Math.floor(Math.random() * 8999);
 
     const piece: ActivePiece = {
       type,
       x: spawnPos.x,
       y: spawnPos.y,
       rotation: 0,
+      allocationTag: meta.tag,
+      sizeKb: meta.sizeKb,
+      pid: randomPid,
     };
 
     this.lastMoveWasRotate = false;
@@ -221,11 +232,15 @@ export class GameEngine {
       const swappedType = this.state.holdPiece;
       this.state.holdPiece = currentType;
       const spawnPos = SPAWN_COORDINATES[swappedType];
+      const meta = ALLOCATION_METADATA[swappedType];
       this.state.activePiece = {
         type: swappedType,
         x: spawnPos.x,
         y: spawnPos.y,
         rotation: 0,
+        allocationTag: meta.tag,
+        sizeKb: meta.sizeKb,
+        pid: 1000 + Math.floor(Math.random() * 8999),
       };
       this.lastMoveWasRotate = false;
       this.lastDropTime = performance.now();
@@ -357,6 +372,8 @@ export class GameEngine {
               color: piece.type,
               type: piece.type,
               state: cellState,
+              memoryAddress: `0x${((boardY * 16) + boardX).toString(16).toUpperCase().padStart(4, '0')}`,
+              pid: piece.pid,
             };
           }
         }
@@ -366,8 +383,35 @@ export class GameEngine {
     // Check for line clears with T-Spin bonus
     this.clearLines(tspin.isTSpin);
 
+    // Recompute real-time heap defragmentation metrics
+    this.recomputeHeapMetrics();
+
     // Spawn next piece
     this.spawnNextPiece();
+  }
+
+  public recomputeHeapMetrics(): void {
+    let occupied = 0;
+    let holes = 0;
+
+    for (let x = 0; x < BOARD_WIDTH; x++) {
+      let blockSeen = false;
+      for (let y = BOARD_BUFFER_HEIGHT; y < BOARD_TOTAL_HEIGHT; y++) {
+        if (this.state.matrix[y][x].filled) {
+          blockSeen = true;
+          occupied++;
+        } else if (blockSeen) {
+          holes++;
+        }
+      }
+    }
+
+    const total = occupied + holes;
+    this.state.stats.fragmentationRatio = total > 0 ? Math.round((holes / total) * 100) : 0;
+    this.state.stats.heapUsedKb = occupied * 128;
+    this.state.stats.oomAlert =
+      (this.state.stats.heapUsedKb / this.state.stats.heapMaxKb) > 0.78 ||
+      this.getHighestFilledRow() <= 5;
   }
 
   public clearLines(isTSpin: boolean = false): number {
@@ -470,6 +514,10 @@ export class GameEngine {
     }
 
     if (lines > 0) {
+      // Reclaim heap RAM per compacted line
+      const reclaimed = lines === 4 ? 5120 : lines * 1024;
+      this.state.stats.reclaimedKb += reclaimed;
+
       // Combo multiplier
       this.state.stats.combos++;
       if (this.state.stats.combos > this.state.stats.maxCombo) {

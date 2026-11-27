@@ -1,19 +1,21 @@
 export type TetrominoType = 'I' | 'J' | 'L' | 'O' | 'S' | 'T' | 'Z';
 
-export type RotationState = 0 | 1 | 2 | 3; // 0 = 0 deg, 1 = 90 deg (R), 2 = 180 deg (2), 3 = 270 deg (L)
+export type RotationState = 0 | 1 | 2 | 3;
 
 export interface Coordinate {
   x: number;
   y: number;
 }
 
-export type CellCurseState = 'normal' | 'tombstone' | 'haunted' | 'rotting';
+export type CellMemoryState = 'normal' | 'leaked' | 'fragmented' | 'compacted' | 'rotting';
 
 export interface MatrixCell {
   filled: boolean;
   color: string;
   type?: TetrominoType;
-  state?: CellCurseState;
+  state?: CellMemoryState;
+  memoryAddress?: string;
+  pid?: number;
 }
 
 export interface ActivePiece {
@@ -21,9 +23,17 @@ export interface ActivePiece {
   x: number;
   y: number;
   rotation: RotationState;
+  allocationTag?: string;
+  sizeKb?: number;
+  pid?: number;
 }
 
-export type CurseType = 'none' | 'fog_of_war' | 'poltergeist_shift' | 'soul_inversion' | 'tombstone_crumble';
+export type CurseType =
+  | 'none'
+  | 'fog_of_war'         // Memory Leak: uncollected pages blinding heap inspection
+  | 'poltergeist_shift'  // Thread Interrupt: sudden CPU preemption displacing active pointer
+  | 'soul_inversion'     // Heap Inversion: reversed memory growth (stack vs heap collision)
+  | 'tombstone_crumble'; // Bit Rot: hardware ECC error crumbling memory pages
 
 export interface ActiveCurse {
   type: CurseType;
@@ -36,15 +46,24 @@ export interface GameStats {
   score: number;
   lines: number;
   level: number;
-  exorcisms: number; // 4-line clears
-  tSpins: number;
+  exorcisms: number; // Major GC Compactions (4-line sweeps)
+  tSpins: number;    // Precision Spin Insertions
   combos: number;
   maxCombo: number;
   backToBack: boolean;
+  reclaimedKb: number;       // Total RAM reclaimed by GC sweeps
+  fragmentationRatio: number;// % of allocated heap volume wasted in holes
+  heapUsedKb: number;        // Current memory pressure
+  heapMaxKb: number;         // OOM Kernel Panic threshold
+  oomAlert: boolean;         // High memory pressure alert
   lastAction?: string;
 }
 
-export type DisplayTheme = 'soviet_green' | 'soviet_amber' | 'gothic_blood' | 'spectral_cyan';
+export type DisplayTheme =
+  | 'soviet_green'  // 1984 Elektronika-60 RAM Matrix
+  | 'soviet_amber'  // 1989 MS-DOS DEFRAG Cluster Map (Norton SpeedDisk)
+  | 'gothic_blood'  // Kubernetes Pod Chaos Stress Test
+  | 'spectral_cyan';// AI Agent KV-Cache Defragmenter
 
 export interface AgentChatMessage {
   id: string;

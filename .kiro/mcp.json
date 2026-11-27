@@ -1,25 +1,25 @@
 {
   "mcpServers": {
-    "necro-tetris-mcp": {
+    "defrag84-mcp": {
       "command": "node",
-      "args": ["./src/mcp/server.js"],
-      "description": "Model Context Protocol bridge allowing external Kiro agents to inspect board matrix, calculate optimal moves, and cast Battle Gaiden curses.",
+      "args": ["./src/mcp/server.ts"],
+      "description": "Model Context Protocol bridge allowing external Kiro agents to monitor live virtual heap fragmentation, trigger autonomous 2D bin-packing GC compactions, and inject chaos workloads.",
       "tools": [
         {
-          "name": "get_board_state",
-          "description": "Returns current 10x20 matrix representation, active piece, hold piece, and active curses."
+          "name": "get_heap_telemetry",
+          "description": "Returns current virtual heap memory statistics: fragmentation ratio, reclaimed MB, heap pressure, OOM alerts, and 10x20 allocation matrix."
         },
         {
           "name": "suggest_move",
-          "description": "Uses Dellacherie heuristics to recommend the best rotation and target column for the active tetromino."
+          "description": "Uses Pierre Dellacherie 2D bin-packing heuristics to calculate optimal page frame compaction placement."
         },
         {
-          "name": "cast_curse",
-          "description": "Allows the Poltergeist agent to trigger a specific curse (fog_of_war, poltergeist_shift, soul_inversion, tombstone_crumble)."
+          "name": "inject_chaos_load",
+          "description": "Allows Chaos Monkey daemon to inject memory leaks (fog_of_war), context switches (poltergeist_shift), pointer inversions (soul_inversion), or bit rot (tombstone_crumble)."
         },
         {
-          "name": "get_graveyard_stats",
-          "description": "Returns lifetime score, total lines cleared (exorcised), back-to-back count, and curse survival rate."
+          "name": "get_board_state",
+          "description": "Returns raw matrix grid, active memory allocation frame, and upcoming page pipeline."
         }
       ]
     }

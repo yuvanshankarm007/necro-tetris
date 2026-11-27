@@ -42,23 +42,23 @@ export class KiroCrewOrchestrator {
   public notifyGameStart(): void {
     this.broadcast(
       'system',
-      'Séance Terminal',
-      '🔮 The Séance has begun. Three spirits inhabit the Elektronika 60 silicon.',
+      'System Telemetry',
+      '⚡ Virtual Heap Initialized [25.6 MB Buffer]. Kiro Crew System Daemons online.',
       'lore'
     );
     setTimeout(() => {
       this.broadcast(
         'pajitnov',
-        "The Architect's Ghost",
-        'Greetings, comrade. In 1984 we had only ASCII brackets on monochrome phosphor. Stack true, keep column 9 open, and prepare for line exorcisms.',
+        "The GC Optimizer",
+        'Greetings, engineer. In 1984 we had only kilobytes of physical RAM. Compact allocations flatly, keep column 9 open for buffer flushes, and eliminate fragmentation holes.',
         'strategic'
       );
     }, 800);
     setTimeout(() => {
       this.broadcast(
         'gravedigger',
-        'The Gravedigger',
-        'The ground is fresh. Every tetromino locked is a tombstone placed in this eternal crypt.',
+        'The Memory Profiler',
+        'Heap baseline established. Every locked page frame consumes 128 KB. Monitoring fragmentation ratio and OOM threshold.',
         'lore'
       );
     }, 1800);
@@ -66,36 +66,34 @@ export class KiroCrewOrchestrator {
 
   public notifyLineClear(lines: number, score: number, combo: number): void {
     if (lines === 4) {
-      // Tetris / Exorcism
       this.broadcast(
         'pajitnov',
-        "The Architect's Ghost",
-        `MAGNIFICENT! 4-line Exorcism executed! Active curses banished and souls set free. Score: +${score}.`,
+        "The GC Optimizer",
+        `MAJOR GC COMPACTION! 5.12 MB heap reclaimed across 4 page rows. Active memory hazards purged. Score: +${score}.`,
         'strategic'
       );
       this.broadcast(
         'gravedigger',
-        'The Gravedigger',
-        'Four graves purified in one thunderous stroke! The crypt bell tolls in reverence.',
+        'The Memory Profiler',
+        'Heap compaction complete! Fragmentation ratio dropped to optimal levels. Excellent 2D bin-packing execution.',
         'lore'
       );
       this.broadcast(
         'poltergeist',
-        'The Poltergeist',
-        'Curses! My dark fog was banished! Do not get comfortable, mortal...',
+        'The Chaos Monkey',
+        'Gah! My memory leaks were swept away! Preparing next container stress test...',
         'taunt'
       );
     } else if (combo >= 3) {
       this.broadcast(
         'pajitnov',
-        "The Architect's Ghost",
-        `Combo x${combo}! Outstanding cadence. Maintain flat surface transitions.`,
+        "The GC Optimizer",
+        `Sequential Compaction Chain x${combo}! High allocation throughput.`,
         'strategic'
       );
 
-      // Chance for Poltergeist retaliation on high combo!
       const now = Date.now();
-      if (now - this.lastPoltergeistCurseTime > 15000) {
+      if (now - this.lastPoltergeistCurseTime > 14000) {
         this.lastPoltergeistCurseTime = now;
         const curses: CurseType[] = ['fog_of_war', 'poltergeist_shift', 'tombstone_crumble'];
         const randomCurse = curses[Math.floor(Math.random() * curses.length)];
@@ -108,14 +106,14 @@ export class KiroCrewOrchestrator {
 
   public triggerPoltergeistCurse(curse: CurseType): void {
     const curseTaunts: Record<Exclude<CurseType, 'none'>, string> = {
-      fog_of_war: 'Hehehe! Let thick graveyard fog swallow your vision! See if you can stack blind!',
-      poltergeist_shift: 'A telekinetic gust shoves your piece! Oops, did your hand slip?',
-      soul_inversion: 'Down is up! The vortex flips gravity itself! Cling to the ceiling!',
-      tombstone_crumble: 'Brittle bones! Your next pieces shall rot into dusty tombstone debris!',
+      fog_of_war: 'Memory Leak Alert! Uncollected dangling pointers blinding the GC! Can you compact blindly?',
+      poltergeist_shift: 'CPU Context Switch! High-priority thread preemption displaces your active allocation pointer!',
+      soul_inversion: 'Heap-Stack Collision! Pointer growth inverted upwards!',
+      tombstone_crumble: 'Silent ECC Bit Rot! Allocated memory pages decaying into corrupted blocks!',
     };
 
     if (curse !== 'none') {
-      this.broadcast('poltergeist', 'The Poltergeist', curseTaunts[curse], 'taunt');
+      this.broadcast('poltergeist', 'The Chaos Monkey', curseTaunts[curse], 'taunt');
       this.curseListeners.forEach((fn) => fn(curse));
     }
   }
@@ -124,14 +122,14 @@ export class KiroCrewOrchestrator {
     if (highestRow <= 4) {
       this.broadcast(
         'pajitnov',
-        "The Architect's Ghost",
-        'CRITICAL WARNING! The stack is approaching the Elektronika buffer ceiling! Look for urgent clears!',
+        "The GC Optimizer",
+        'CRITICAL: Memory pressure at 92%! OOMKilled threshold imminent. Trigger urgent page compactions!',
         'urgent'
       );
       this.broadcast(
         'gravedigger',
-        'The Gravedigger',
-        'I am measuring your final plot. One misdrop and the crypt closes forever.',
+        'The Memory Profiler',
+        'WARNING: Kernel panic imminent. Allocation skyline has breached page threshold.',
         'urgent'
       );
     }
@@ -140,20 +138,20 @@ export class KiroCrewOrchestrator {
   public notifyGameOver(stats: { score: number; lines: number; exorcisms: number }): void {
     this.broadcast(
       'system',
-      'Séance Terminal',
-      `💀 SÉANCE CONCLUDED. Final Score: ${stats.score} | Lines: ${stats.lines} | Exorcisms: ${stats.exorcisms}`,
+      'System Telemetry',
+      `💀 KERNEL PANIC: OUT OF MEMORY (OOM). Reclaimed: ${(stats.exorcisms * 5.12).toFixed(1)} MB | Sweeps: ${stats.lines}`,
       'urgent'
     );
     this.broadcast(
       'gravedigger',
-      'The Gravedigger',
-      `Here lies the player. ${stats.lines} stones laid, ${stats.exorcisms} souls purified. May their high score rest in peace.`,
+      'The Memory Profiler',
+      `Core dump captured. ${stats.lines} page rows compacted before fragmentation exceeded physical limits.`,
       'lore'
     );
     this.broadcast(
       'pajitnov',
-      "Dr. Alexey's Ghost",
-      'A valiant effort. In 1984, every game ended in defeat; it is the symmetry of the struggle that endures. Revive to try again.',
+      "The GC Optimizer",
+      'In 1984, memory was finite; in modern cloud containers, it still is. Reboot the kernel to initialize a fresh heap.',
       'strategic'
     );
   }

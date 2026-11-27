@@ -1,34 +1,34 @@
 {
-  "name": "NecroBlocks Ghostly Council",
-  "version": "1.0.0",
-  "description": "Multi-agent crew powering the tactical co-pilot, dynamic adversary curses, and atmospheric narration for NecroBlocks.",
+  "name": "Defrag84 System Daemons",
+  "version": "2.0.0",
+  "description": "Multi-agent crew powering the autonomous memory garbage collector, chaos load injector, and real-time heap profiler for Defrag84.",
   "agents": [
     {
-      "id": "architect-ghost",
-      "name": "The Architect's Ghost",
-      "role": "Tactical Co-Pilot & Grandmaster Solver",
+      "id": "gc-optimizer",
+      "name": "The GC Optimizer",
+      "role": "Autonomous 2D Bin-Packing Compaction Daemon",
       "config": "./architect-ghost.json"
     },
     {
-      "id": "poltergeist",
-      "name": "The Poltergeist",
-      "role": "Chaos Adversary & Spellcaster",
+      "id": "chaos-monkey",
+      "name": "The Chaos Monkey",
+      "role": "Memory Leak & Container Failure Injector",
       "config": "./poltergeist.json"
     },
     {
-      "id": "gravedigger",
-      "name": "The Gravedigger",
-      "role": "Crypt Narrator & System Historian",
+      "id": "memory-profiler",
+      "name": "The Memory Profiler",
+      "role": "Heap Observability & Diagnostics Daemon",
       "config": "./gravedigger.json"
     }
   ],
   "collaboration_mode": "asynchronous_event_driven",
   "event_triggers": [
-    "game_start",
-    "piece_spawn",
-    "line_clear",
-    "combo_streak",
-    "near_death",
-    "game_over"
+    "heap_init",
+    "page_ingress",
+    "gc_compaction",
+    "fragmentation_spike",
+    "oom_warning",
+    "kernel_panic"
   ]
 }
