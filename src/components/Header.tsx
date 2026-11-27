@@ -1,7 +1,7 @@
 import React from 'react';
 import { DisplayTheme } from '../core/types';
 import { THEME_CONFIG } from '../core/constants';
-import { Volume2, VolumeX, Play, Pause, RotateCcw, Monitor, Sparkles, Award, Timer, Video } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, RotateCcw, Monitor, Sparkles, Award, Timer } from 'lucide-react';
 
 interface HeaderProps {
   theme: DisplayTheme;
@@ -17,7 +17,6 @@ interface HeaderProps {
   onRestart: () => void;
   onOpenJudgeTour?: () => void;
   onOpenBenchmark?: () => void;
-  onOpenRecordModal?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -34,7 +33,6 @@ export const Header: React.FC<HeaderProps> = ({
   onRestart,
   onOpenJudgeTour,
   onOpenBenchmark,
-  onOpenRecordModal,
 }) => {
   const config = THEME_CONFIG[theme];
 
@@ -88,18 +86,6 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <Timer className="w-3.5 h-3.5 text-emerald-400" />
             <span>60s Benchmark</span>
-          </button>
-        )}
-
-        {/* Record Demo Video Button */}
-        {onOpenRecordModal && (
-          <button
-            onClick={onOpenRecordModal}
-            className="px-2.5 py-1 rounded bg-red-950/80 hover:bg-red-900 border border-red-600/80 text-red-300 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer transition-colors shadow-[0_0_12px_rgba(239,68,68,0.3)] animate-pulse"
-            title="Open In-App Video Recorder (Screen & Audio Capture)"
-          >
-            <Video className="w-3.5 h-3.5 text-red-500" />
-            <span>Record Video</span>
           </button>
         )}
 

@@ -16,7 +16,6 @@ import { ControlsGuide } from './components/ControlsGuide';
 import { HeapHeatmap } from './components/HeapHeatmap';
 import { JudgeTourModal } from './components/JudgeTourModal';
 import { BenchmarkModal } from './components/BenchmarkModal';
-import { VideoRecorderModal } from './components/VideoRecorderModal';
 import { liveMemoryBridge, ContainerProfile } from './core/liveMemoryBridge';
 import { CoreDumpExporter } from './core/coreDumpExporter';
 import { Skull, RotateCcw, Download, Sparkles } from 'lucide-react';
@@ -38,7 +37,6 @@ export const App: React.FC = () => {
   const [messages, setMessages] = useState<AgentChatMessage[]>([]);
   const [isJudgeTourOpen, setIsJudgeTourOpen] = useState(false);
   const [isBenchmarkOpen, setIsBenchmarkOpen] = useState(false);
-  const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState<ContainerProfile>(liveMemoryBridge.getActiveProfile());
   const [, setTick] = useState(0);
 
@@ -437,7 +435,6 @@ export const App: React.FC = () => {
         onRestart={handleRestart}
         onOpenJudgeTour={() => setIsJudgeTourOpen(true)}
         onOpenBenchmark={() => setIsBenchmarkOpen(true)}
-        onOpenRecordModal={() => setIsRecordModalOpen(true)}
       />
 
       <main className="flex-1 flex flex-col items-center justify-center p-3 md:p-6 max-w-7xl mx-auto w-full gap-6">
@@ -676,19 +673,6 @@ export const App: React.FC = () => {
         theme={theme}
         isAutoPlay={isAutoPlay}
         onToggleAutoPlay={() => setIsAutoPlay((v) => !v)}
-      />
-
-      <VideoRecorderModal
-        isOpen={isRecordModalOpen}
-        onClose={() => setIsRecordModalOpen(false)}
-        theme={theme}
-        onAutoPlayEnable={() => setIsAutoPlay(true)}
-        onBgmEnable={() => {
-          if (!isBgmPlaying) {
-            spookyAudio.startBGM();
-            setIsBgmPlaying(true);
-          }
-        }}
       />
 
       <footer className="p-3 border-t border-zinc-900 bg-black/80 text-center text-xs font-mono text-zinc-600 flex flex-wrap items-center justify-center gap-4">
