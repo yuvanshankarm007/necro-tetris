@@ -6,8 +6,8 @@
 - **Hackathon**: Kiroween 2026
 - **Category**: Resurrection ("Bring your favorite dead technology back to life. Reimagine obsolete tech with today’s innovations or solving tomorrow’s problems.")
 - **Target Bonus Prizes**:
-  - Best Kiro Crew App (Multi-agent system daemons coordinating over MCP, A2A, and AG-UI)
-  - Best Demo (100% web-native, zero-crash procedural Web Audio synth and interactive Canvas CRT renderer)
+  - Best Kiro Crew App ($50,000 Tier: Autonomous system daemons coordinating over MCP, A2A, and AG-UI with live consensus debates and heuristic auto-play)
+  - Best Demo (100% web-native, zero-crash procedural Web Audio synth, interactive eBPF address heatmap, and CRT renderer with floating hex particles)
   - Social Blitz Prize (`#KiroweenHackathon26`)
   - Bonus Blog Prize
 
@@ -15,7 +15,7 @@
 
 ## 💡 Inspiration: The Resurrection Innovation
 
-In 1984, computer scientist Alexey Pajitnov was conducting academic research on combinatorial geometry and 2D bin-packing algorithms at the Soviet Academy of Sciences Dorodnitsyn Computing Centre, testing placements on an Elektronika 60 monochrome terminal. In the 1990s, utilities like **MS-DOS DEFRAG** and **Norton SpeedDisk** turned disk and memory compaction into an iconic, tactile visual experience. Over the decades, these spatial roots were forgotten, reduced to simple casual video games while enterprise systems moved to black-box cloud dashboards.
+In 1984, computer scientist **Alexey Pajitnov** was conducting academic research on combinatorial geometry and 2D bin-packing algorithms at the Soviet Academy of Sciences Dorodnitsyn Computing Centre, testing placements on an Elektronika 60 monochrome terminal. In the 1990s, utilities like **MS-DOS DEFRAG** and **Norton SpeedDisk** turned disk and memory compaction into an iconic, tactile visual experience. Over the decades, these spatial roots were forgotten, reduced to simple casual video games while enterprise systems moved to opaque black-box cloud dashboards.
 
 Meanwhile, in 2026, modern cloud infrastructure faces a multi-billion dollar crisis:
 1. **Container Memory Bloat & OOM Kills**: Microservices running in Kubernetes clusters frequently crash due to Linux Kernel Out-Of-Memory (`OOMKilled`) panics caused by uncollected heap allocations and internal memory fragmentation.
@@ -44,24 +44,31 @@ That is **Defrag84**.
 
 2. **Atomic Major Garbage Collection Compactions**:
    - Completing a full 10-column memory row executes an atomic **Major Garbage Collection Cycle**, physically compacting the heap, freeing RAM, lowering the live Fragmentation Ratio, and cooling Heap Pressure.
+   - Cleared rows trigger floating hexadecimal deallocation tokens (`0x00`, `FREE`, `DEALLOC`, `+256KB`).
    - Tactical spin insertions (`T-Spin Compaction`) trigger high-efficiency compaction multipliers.
 
-3. **Multi-Engine CRT Observability**:
-   - **1984 RAM Hex Terminal (Elektronika 60)**: Pure monochromatic phosphor green terminal with raw hex address rail (`0x0000`–`0x2600`), scanlines, and phosphor decay persistence.
-   - **MS-DOS DEFRAG (Norton SpeedDisk)**: Classic 1990s blue/white block matrix highlighting fragmented memory holes and leaked blocks in bright red.
-   - **K8s Chaos Engine**: High-contrast production container monitoring dashboard with pulsating error thresholds.
-   - **LLM KV-Cache Monitor**: Cyan/magenta neural transformer KV-cache context block allocator.
+3. **eBPF Virtual Address Space Heatmap & Live Memory Bridge**:
+   - Real-time address matrix (`0x0000`–`0x2600`) showing allocated pages, free blocks, and uncollected leak holes.
+   - Live Memory Bridge connecting to the host browser's actual V8 heap statistics (`performance.memory`) or simulated Kubernetes workloads (`vLLM Neural Inference`, `Envoy Ingress Gateway`, `Redis In-Memory Buffer`).
 
-4. **Kiro Crew Multi-Agent Daemon System**:
-   - **The GC Optimizer (`gc-optimizer`)**: Autonomous 2D bin-packing compaction daemon powered by a multi-variable Pierre Dellacherie heuristic solver. Features an autonomous **"Engage AI Compactor"** auto-play mode with live explanatory telemetry.
+4. **Forensic Linux Kernel OOM Core Dump Exporter**:
+   - One-click export of authentic Linux kernel memory crash dumps (`.json` and `.log`) with ELF architecture headers, eBPF stack traces, and physical memory allocation tables.
+
+5. **Kiro Crew Multi-Agent Daemon System (MCP + A2A + AG-UI)**:
+   - **The GC Optimizer (`gc-optimizer`)**: Autonomous 2D bin-packing compaction daemon powered by a multi-variable Pierre Dellacherie heuristic solver. Features an autonomous **"Engage AI Compactor"** auto-play mode with live holographic target projections (`[AI-PLAN]`).
    - **The Chaos Monkey (`chaos-monkey`)**: Production fault injector simulating container failure modes: Memory Leak injection, noisy-neighbor Context Switches, Inverted Pointer gravity, and ECC Bit Rot memory corruption.
    - **The Memory Profiler (`memory-profiler`)**: Real-time eBPF observability daemon computing live fragmentation ratios, tracking compaction throughput in MB/s, and generating kernel core dumps on OOM crashes.
+   - **Live A2A Consensus Debates**: Operators can trigger autonomous inter-daemon debates where agents negotiate compaction vs fault-injection trade-offs.
 
-5. **100% Procedural Web Audio API Synthesizer**:
+6. **Interactive Benchmark Challenge & Judge Quick Tour**:
+   - **Judge Quick Tour**: 3-step interactive architecture tour guiding evaluators through the 1984 resurrection, the 3-Tier agent protocol stack, and technical highlights.
+   - **60-Second Compaction Benchmark**: Real-time Human vs AI Autopilot challenge measuring RAM Reclaimed (MB), Major Compactions, and GC Throughput (KB/s), issuing an official verified certificate.
+
+7. **100% Procedural Web Audio API Synthesizer**:
    - Zero external audio files or network dependencies (guaranteed zero asset drops or CORS errors during live demos).
    - Generates an original haunting 8-bit minor-key crypt dirge with dual pulse wave oscillators and lowpass filter resonance, alongside tactile mechanical relay clicks and compaction chime chords.
 
-6. **Tournament-Grade Responsive Controls**:
+8. **Tournament-Grade Responsive Controls**:
    - Built-in Delayed Auto-Shift (**DAS = 135ms**), Auto-Repeat Rate (**ARR = 25ms**), and Soft Drop Factor (**SDF = 30ms**) for instant, ultra-responsive tactile memory compaction.
 
 ---
@@ -76,7 +83,7 @@ We utilized Kiro's unified ecosystem across the entire engineering lifecycle:
 
 ### 2. Custom Agents (`.kiro/crew/`)
 We architected three specialized system daemons defined in `.kiro/crew/`:
-- `architect-ghost.json` (**The GC Optimizer**): A mathematical compaction daemon calculating optimal page frame placements via Pierre Dellacherie 2D bin-packing heuristics. Minimizes fragmentation holes and drives the autonomous auto-compactor mode.
+- `architect-ghost.json` (**The GC Optimizer**): A mathematical compaction daemon calculating optimal page frame placements via Pierre Dellacherie 2D bin-packing heuristics. Minimizes fragmentation holes, projects holographic targets, and drives the autonomous auto-compactor mode.
 - `poltergeist.json` (**The Chaos Monkey**): A resilience engineering daemon inspired by Netflix Chaos Monkey. Injects uncollectible memory leaks, context switches, pointer inversions, and ECC bit-rot anomalies to test garbage collector robustness under pressure.
 - `gravedigger.json` (**The Memory Profiler**): An eBPF-grade observability sentinel that continuously monitors real-time heap pressure (`heapUsedKb / heapMaxKb`), computes live fragmentation ratios, and logs post-mortem kernel core dumps when Out-Of-Memory limits are breached.
 

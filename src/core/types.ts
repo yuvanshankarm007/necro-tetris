@@ -59,6 +59,23 @@ export interface GameStats {
   lastAction?: string;
 }
 
+export interface GameState {
+  matrix: MatrixCell[][];
+  activePiece: ActivePiece | null;
+  holdPiece: TetrominoType | null;
+  canHold: boolean;
+  nextPieces: TetrominoType[];
+  stats: GameStats;
+  gameOver: boolean;
+  isPaused: boolean;
+  activeCurse: ActiveCurse | null;
+  lockTimer: number | null;
+  lockResets: number;
+  lastClearCount: number;
+  shakeTrigger: number;
+  lastActionText: string | null;
+}
+
 export type DisplayTheme =
   | 'soviet_green'  // 1984 Elektronika-60 RAM Matrix
   | 'soviet_amber'  // 1989 MS-DOS DEFRAG Cluster Map (Norton SpeedDisk)

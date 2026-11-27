@@ -1,7 +1,7 @@
 import React from 'react';
 import { DisplayTheme } from '../core/types';
 import { THEME_CONFIG } from '../core/constants';
-import { Volume2, VolumeX, Play, Pause, RotateCcw, Monitor, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, RotateCcw, Monitor, Sparkles, Award, Timer } from 'lucide-react';
 
 interface HeaderProps {
   theme: DisplayTheme;
@@ -15,6 +15,8 @@ interface HeaderProps {
   isPaused: boolean;
   onTogglePause: () => void;
   onRestart: () => void;
+  onOpenJudgeTour?: () => void;
+  onOpenBenchmark?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -29,11 +31,13 @@ export const Header: React.FC<HeaderProps> = ({
   isPaused,
   onTogglePause,
   onRestart,
+  onOpenJudgeTour,
+  onOpenBenchmark,
 }) => {
   const config = THEME_CONFIG[theme];
 
   return (
-    <header className="w-full flex flex-wrap items-center justify-between gap-4 p-3 border-b border-zinc-800/80 bg-black/60 backdrop-blur-md">
+    <header className="w-full flex flex-wrap items-center justify-between gap-4 p-3 border-b border-zinc-800/80 bg-black/75 backdrop-blur-md">
       {/* Title & Hackathon Badge */}
       <div className="flex items-center gap-3">
         <div className="flex flex-col">
@@ -48,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
             >
               Defrag84
             </h1>
-            <span className="text-xs px-2 py-0.5 rounded font-mono bg-purple-950/80 text-purple-300 border border-purple-700/60 flex items-center gap-1">
+            <span className="text-xs px-2 py-0.5 rounded font-mono bg-purple-950/80 text-purple-300 border border-purple-700/60 flex items-center gap-1 font-bold">
               <Sparkles className="w-3 h-3 text-purple-400" />
               Autonomous GC
             </span>
@@ -59,8 +63,32 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Controls & Theme Selectors */}
+      {/* Controls & Quick Modals */}
       <div className="flex flex-wrap items-center gap-2">
+        {/* Judge Tour Button */}
+        {onOpenJudgeTour && (
+          <button
+            onClick={onOpenJudgeTour}
+            className="px-2.5 py-1 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-600/80 text-amber-300 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer transition-colors shadow-[0_0_12px_rgba(245,158,11,0.25)]"
+            title="Open Judge Quick Tour (Architecture & Innovation Overview)"
+          >
+            <Award className="w-3.5 h-3.5 text-amber-400" />
+            <span>Judge Tour</span>
+          </button>
+        )}
+
+        {/* 60s Benchmark Trial Button */}
+        {onOpenBenchmark && (
+          <button
+            onClick={onOpenBenchmark}
+            className="px-2.5 py-1 rounded bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-600/80 text-emerald-300 text-xs font-mono font-bold flex items-center gap-1.5 cursor-pointer transition-colors shadow-[0_0_12px_rgba(16,185,129,0.25)]"
+            title="Start 60-Second Compaction Benchmark (Human vs AI Autopilot)"
+          >
+            <Timer className="w-3.5 h-3.5 text-emerald-400" />
+            <span>60s Benchmark</span>
+          </button>
+        )}
+
         {/* Theme Picker */}
         <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded border border-zinc-800 text-xs font-mono">
           <button
@@ -133,13 +161,13 @@ export const Header: React.FC<HeaderProps> = ({
           }`}
           title="Toggle Haunted 8-bit Korobeiniki Synthesizer"
         >
-          <span>🎵 {isBgmPlaying ? '8-Bit Synth ON' : 'Synth OFF'}</span>
+          <span>🎵 {isBgmPlaying ? 'Synth ON' : 'Synth OFF'}</span>
         </button>
 
         {/* Mute Button */}
         <button
           onClick={onToggleMute}
-          className={`p-1.5 rounded border border-zinc-800 bg-zinc-900 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-200`}
+          className="p-1.5 rounded border border-zinc-800 bg-zinc-900 transition-colors cursor-pointer text-zinc-400 hover:text-zinc-200"
           title={isMuted ? 'Unmute' : 'Mute'}
         >
           {isMuted ? <VolumeX className="w-3.5 h-3.5 text-red-400" /> : <Volume2 className="w-3.5 h-3.5" />}

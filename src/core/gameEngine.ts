@@ -14,28 +14,14 @@ import {
   MatrixCell,
   ActivePiece,
   GameStats,
+  GameState,
   CurseType,
   ActiveCurse,
 } from './types';
 import { SevenBagRandomizer } from './randomizer';
 import { isColliding, tryRotateSRS, calculateGhostY } from './srs';
 
-export interface GameEngineState {
-  matrix: MatrixCell[][];
-  activePiece: ActivePiece | null;
-  holdPiece: TetrominoType | null;
-  canHold: boolean;
-  nextPieces: TetrominoType[];
-  stats: GameStats;
-  gameOver: boolean;
-  isPaused: boolean;
-  activeCurse: ActiveCurse | null;
-  lockTimer: number | null;
-  lockResets: number;
-  lastClearCount: number;
-  shakeTrigger: number;
-  lastActionText: string | null;
-}
+export type GameEngineState = GameState;
 
 export class GameEngine {
   private randomizer: SevenBagRandomizer;

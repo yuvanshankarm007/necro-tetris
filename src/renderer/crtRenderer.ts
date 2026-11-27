@@ -24,6 +24,7 @@ export interface Particle {
   size: number;
   life: number;
   maxLife: number;
+  text?: string;
 }
 
 export class CRTRenderer {
@@ -43,7 +44,8 @@ export class CRTRenderer {
     theme: DisplayTheme,
     activeCurse: ActiveCurse | null,
     isSovietMode: boolean,
-    actionBanner: string | null = null
+    actionBanner: string | null = null,
+    aiTargetMove?: { targetX: number; targetY: number; rotation: number; type: TetrominoType } | null
   ): void {
     const width = this.canvas.width;
     const height = this.canvas.height;
@@ -138,6 +140,32 @@ export class CRTRenderer {
               const drawX = offsetX + blockX * cellSize;
               const drawY = blockY * cellSize;
               this.drawGhostBlock(ctx, drawX, drawY, cellSize, themeConfig.primaryText);
+            }
+          }
+        }
+      }
+      ctx.restore();
+    }
+
+    // 3b. Draw AI Heuristic Planned Target Projection (The GC Optimizer's Plan)
+    if (aiTargetMove && (!activePiece || aiTargetMove.type === activePiece.type)) {
+      const shape = TETROMINO_SHAPES[aiTargetMove.type][aiTargetMove.rotation as 0 | 1 | 2 | 3];
+      const size = shape.length;
+      ctx.save();
+      ctx.strokeStyle = '#00ffff';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([3, 3]);
+      ctx.shadowColor = '#00ffff';
+      ctx.shadowBlur = 8;
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (shape[r][c] !== 0) {
+            const blockX = aiTargetMove.targetX + c;
+            const blockY = (aiTargetMove.targetY ?? 18) - BOARD_BUFFER_HEIGHT + r;
+            if (blockY >= 0 && blockY < BOARD_VISIBLE_HEIGHT && blockX >= 0 && blockX < BOARD_WIDTH) {
+              const drawX = offsetX + blockX * cellSize;
+              const drawY = blockY * cellSize;
+              ctx.strokeRect(drawX + 1, drawY + 1, cellSize - 2, cellSize - 2);
             }
           }
         }
@@ -314,6 +342,25 @@ export class CRTRenderer {
         maxLife: Math.random() * 25 + 20,
       });
     }
+
+    // Spawn floating hexadecimal memory deallocation tokens
+    const hexTokens = ['0x00', 'FREE', 'DEALLOC', '+256KB', '0xFF', 'GC_SWEEP', 'RECLAIM', '0x2600'];
+    const tokenCount = linesCount === 4 ? 12 : 5;
+    for (let i = 0; i < tokenCount; i++) {
+      const token = hexTokens[Math.floor(Math.random() * hexTokens.length)];
+      this.particles.push({
+        x: offsetX + Math.random() * (BOARD_WIDTH * cellSize),
+        y: y + (Math.random() * linesCount * cellSize),
+        vx: (Math.random() - 0.5) * 2,
+        vy: -(Math.random() * 2.5 + 1.5), // float upwards
+        color: linesCount === 4 ? '#33ff66' : '#38bdf8',
+        alpha: 1.0,
+        size: 9,
+        life: 0,
+        maxLife: 45,
+        text: token,
+      });
+    }
   }
 
   private updateAndDrawParticles(ctx: CanvasRenderingContext2D): void {
@@ -321,18 +368,33 @@ export class CRTRenderer {
       const p = this.particles[i];
       p.x += p.vx;
       p.y += p.vy;
-      p.vy += 0.18; // gravity
+      if (!p.text) {
+        p.vy += 0.18; // gravity for sparks
+      } else {
+        p.vy *= 0.98; // gentle float for hex text tokens
+      }
       p.life++;
       p.alpha = Math.max(0, 1 - p.life / p.maxLife);
 
       ctx.save();
       ctx.globalAlpha = p.alpha;
-      ctx.fillStyle = p.color;
-      ctx.shadowColor = p.color;
-      ctx.shadowBlur = 6;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
+
+      if (p.text) {
+        ctx.font = 'bold 9px monospace';
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 6;
+        ctx.textAlign = 'center';
+        ctx.fillText(p.text, p.x, p.y);
+      } else {
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
       ctx.restore();
 
       if (p.life >= p.maxLife) {

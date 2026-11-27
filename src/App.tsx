@@ -5,7 +5,7 @@ import { TetrisInputHandler } from './core/inputHandler';
 import { spookyAudio } from './audio/spookySynth';
 import { kiroCrew } from './ai/kiroCrew';
 import { aiSolver } from './ai/heuristicSolver';
-import { DisplayTheme, CurseType, AgentChatMessage } from './core/types';
+import { DisplayTheme, CurseType, AgentChatMessage, TetrominoType } from './core/types';
 import { THEME_CONFIG } from './core/constants';
 import { Header } from './components/Header';
 import { HoldQueue } from './components/HoldQueue';
@@ -13,7 +13,12 @@ import { NextQueue } from './components/NextQueue';
 import { SeanceTerminal } from './components/SeanceTerminal';
 import { MobileControls } from './components/MobileControls';
 import { ControlsGuide } from './components/ControlsGuide';
-import { Skull, RotateCcw } from 'lucide-react';
+import { HeapHeatmap } from './components/HeapHeatmap';
+import { JudgeTourModal } from './components/JudgeTourModal';
+import { BenchmarkModal } from './components/BenchmarkModal';
+import { liveMemoryBridge, ContainerProfile } from './core/liveMemoryBridge';
+import { CoreDumpExporter } from './core/coreDumpExporter';
+import { Skull, RotateCcw, Download, Sparkles } from 'lucide-react';
 
 export const App: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -30,6 +35,9 @@ export const App: React.FC = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [actionBanner, setActionBanner] = useState<string | null>(null);
   const [messages, setMessages] = useState<AgentChatMessage[]>([]);
+  const [isJudgeTourOpen, setIsJudgeTourOpen] = useState(false);
+  const [isBenchmarkOpen, setIsBenchmarkOpen] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState<ContainerProfile>(liveMemoryBridge.getActiveProfile());
   const [, setTick] = useState(0);
 
   const isSovietMode = theme === 'soviet_green' || theme === 'soviet_amber';
@@ -123,7 +131,6 @@ export const App: React.FC = () => {
     inputHandlerRef.current = input;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      // Shortcuts for theme and mute
       if (e.code === 'Digit1') setTheme('soviet_green');
       else if (e.code === 'Digit2') setTheme('soviet_amber');
       else if (e.code === 'Digit3') setTheme('gothic_blood');
@@ -159,7 +166,7 @@ export const App: React.FC = () => {
     kiroCrew.notifyGameStart();
 
     const unsubscribeCrew = kiroCrew.subscribeMessages((msg) => {
-      setMessages((prev) => [...prev.slice(-30), msg]);
+      setMessages((prev) => [...prev.slice(-35), msg]);
     });
 
     const unsubscribeCurses = kiroCrew.subscribeCurses((curse) => {
@@ -218,15 +225,29 @@ export const App: React.FC = () => {
         }
       }
 
-      // Draw canvas
+      // Draw canvas with optional AI Planned Target Projection
       if (renderer && engine) {
+        let aiPlan = null;
+        if (engine.state.activePiece) {
+          const best = aiSolver.findBestMove(engine.state.matrix, engine.state.activePiece.type);
+          if (best) {
+            aiPlan = {
+              targetX: best.targetX,
+              targetY: 19,
+              rotation: best.rotation,
+              type: engine.state.activePiece.type,
+            };
+          }
+        }
+
         renderer.render(
           engine.state.matrix,
           engine.state.activePiece,
           theme,
           engine.state.activeCurse,
           isSovietMode,
-          actionBanner
+          actionBanner,
+          aiPlan
         );
       }
 
@@ -321,7 +342,7 @@ export const App: React.FC = () => {
     const userMsg: AgentChatMessage = {
       id: Math.random().toString(36).substring(2, 9),
       sender: 'system',
-      name: 'Mortal Player',
+      name: 'Cloud Operator',
       text,
       timestamp: new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }),
     };
@@ -333,19 +354,62 @@ export const App: React.FC = () => {
         engineRef.current.state.activePiece?.type || 'T'
       );
       const reply = bestMove
-        ? `Tactical telemetry: ${bestMove.explanation} (Dellacherie heuristic score: ${Math.round(bestMove.score)})`
-        : 'Keep stacking flatly, comrade. Avoid creating covered holes.';
+        ? `GC Telemetry: ${bestMove.explanation} (Dellacherie heuristic score: ${Math.round(bestMove.score)})`
+        : 'Stacking contiguous page blocks. Heap pressure within safe threshold.';
 
       const ghostMsg: AgentChatMessage = {
         id: Math.random().toString(36).substring(2, 9),
         sender: 'pajitnov',
-        name: "The Architect's Ghost",
+        name: 'The GC Optimizer',
         text: reply,
         timestamp: new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }),
         sentiment: 'strategic',
       };
       setMessages((prev) => [...prev, ghostMsg]);
     }, 600);
+  };
+
+  const handleTriggerDebate = () => {
+    const timestamp = () =>
+      new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    // Step 1: GC Optimizer speaks
+    const msg1: AgentChatMessage = {
+      id: Math.random().toString(36).substring(2, 9),
+      sender: 'pajitnov',
+      name: 'The GC Optimizer',
+      text: 'A2A EVALUATION: Ingress memory allocation pending. Recommending immediate 2D bin-packing compaction in Column 6. Zero holes created.',
+      timestamp: timestamp(),
+      sentiment: 'strategic',
+    };
+    setMessages((prev) => [...prev, msg1]);
+
+    // Step 2: Chaos Monkey challenges
+    setTimeout(() => {
+      const msg2: AgentChatMessage = {
+        id: Math.random().toString(36).substring(2, 9),
+        sender: 'poltergeist',
+        name: 'The Chaos Monkey',
+        text: 'A2A ADVERSARIAL: Too clean! Real cloud microservices face uncollected socket leaks and container noisy neighbors. Let us inject chaos load!',
+        timestamp: timestamp(),
+        sentiment: 'taunt',
+      };
+      setMessages((prev) => [...prev, msg2]);
+    }, 900);
+
+    // Step 3: Memory Profiler audits
+    setTimeout(() => {
+      const stats = engineRef.current.state.stats;
+      const msg3: AgentChatMessage = {
+        id: Math.random().toString(36).substring(2, 9),
+        sender: 'gravedigger',
+        name: 'The Memory Profiler',
+        text: `A2A TELEMETRY: Heap pressure at ${((stats.heapUsedKb / stats.heapMaxKb) * 100).toFixed(1)}%. Throughput stable at ${(stats.reclaimedKb / 1024).toFixed(2)} MB reclaimed. A2A consensus reached: PROCEED WITH GC SWEEP.`,
+        timestamp: timestamp(),
+        sentiment: 'lore',
+      };
+      setMessages((prev) => [...prev, msg3]);
+    }, 1800);
   };
 
   const engine = engineRef.current;
@@ -369,9 +433,12 @@ export const App: React.FC = () => {
         isPaused={isPaused}
         onTogglePause={handleTogglePause}
         onRestart={handleRestart}
+        onOpenJudgeTour={() => setIsJudgeTourOpen(true)}
+        onOpenBenchmark={() => setIsBenchmarkOpen(true)}
       />
 
-      <main className="flex-1 flex flex-col items-center justify-center p-3 md:p-6 max-w-7xl mx-auto w-full">
+      <main className="flex-1 flex flex-col items-center justify-center p-3 md:p-6 max-w-7xl mx-auto w-full gap-6">
+        {/* Main 3-Column Playing Field */}
         <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-6 w-full">
           <HoldQueue
             holdPiece={engine.state.holdPiece}
@@ -413,7 +480,7 @@ export const App: React.FC = () => {
                       className="text-2xl font-bold font-mono tracking-widest uppercase mb-2"
                       style={{ color: config.primaryText }}
                     >
-                      SÉANCE PAUSED
+                      COMPACTION PAUSED
                     </span>
                     <span className="text-xs text-zinc-400 font-mono">
                       Press P or ESC to Resume
@@ -428,7 +495,7 @@ export const App: React.FC = () => {
                       KERNEL PANIC: OUT OF MEMORY
                     </h2>
                     <p className="text-[11px] text-zinc-400 font-mono mb-4">
-                      Virtual heap exhaustion (OOMKilled). The Profiler has generated a core dump.
+                      Virtual heap exhaustion (OOMKilled). The Profiler has generated a forensic core dump.
                     </p>
 
                     <div className="bg-black/60 border border-zinc-800 rounded p-3 mb-4 w-full text-xs font-mono">
@@ -464,6 +531,23 @@ export const App: React.FC = () => {
                           {engine.state.stats.score.toLocaleString()}
                         </span>
                       </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 mb-3">
+                      <button
+                        onClick={() => CoreDumpExporter.downloadAsJson(engine.state, selectedProfile.id)}
+                        className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 rounded text-xs font-mono text-zinc-300 flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        <Download className="w-3.5 h-3.5 text-cyan-400" />
+                        <span>Dump JSON</span>
+                      </button>
+                      <button
+                        onClick={() => CoreDumpExporter.downloadAsTextReport(engine.state, selectedProfile.id)}
+                        className="px-3 py-1.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 rounded text-xs font-mono text-emerald-300 flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        <Download className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Dump .LOG</span>
+                      </button>
                     </div>
 
                     <button
@@ -553,15 +637,43 @@ export const App: React.FC = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-4 w-full max-w-5xl mt-6">
+        {/* eBPF Observability & Address Space Heatmap Component */}
+        <div className="w-full max-w-5xl">
+          <HeapHeatmap
+            state={engine.state}
+            theme={theme}
+            selectedProfile={selectedProfile}
+            onSelectProfile={setSelectedProfile}
+          />
+        </div>
+
+        {/* Kiro Crew Daemon Terminal & Controls Guide */}
+        <div className="flex flex-col gap-4 w-full max-w-5xl">
           <ControlsGuide />
           <SeanceTerminal
             messages={messages}
             onSendMessage={handleSendMessage}
+            onTriggerDebate={handleTriggerDebate}
             theme={theme}
           />
         </div>
       </main>
+
+      {/* Modals */}
+      <JudgeTourModal
+        isOpen={isJudgeTourOpen}
+        onClose={() => setIsJudgeTourOpen(false)}
+        theme={theme}
+      />
+
+      <BenchmarkModal
+        isOpen={isBenchmarkOpen}
+        onClose={() => setIsBenchmarkOpen(false)}
+        stats={engine.state.stats}
+        theme={theme}
+        isAutoPlay={isAutoPlay}
+        onToggleAutoPlay={() => setIsAutoPlay((v) => !v)}
+      />
 
       <footer className="p-3 border-t border-zinc-900 bg-black/80 text-center text-xs font-mono text-zinc-600 flex flex-wrap items-center justify-center gap-4">
         <span>Kiroween 2026 Hackathon Submission</span>
