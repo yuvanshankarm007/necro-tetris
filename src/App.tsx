@@ -268,14 +268,20 @@ export const App: React.FC = () => {
         if (engine.state.activePiece && !engine.state.gameOver && !engine.state.isPaused) {
           const move = aiSolver.findBestMove(engine.state.matrix, engine.state.activePiece.type);
           if (move) {
-            while (engine.state.activePiece.rotation !== move.rotation) {
-              engine.rotate('clockwise');
+            let rotTries = 0;
+            while (engine.state.activePiece.rotation !== move.rotation && rotTries < 4) {
+              if (!engine.rotate('clockwise')) break;
+              rotTries++;
             }
-            while (engine.state.activePiece.x < move.targetX) {
-              engine.moveRight();
+            let moveTries = 0;
+            while (engine.state.activePiece.x < move.targetX && moveTries < 10) {
+              if (!engine.moveRight()) break;
+              moveTries++;
             }
-            while (engine.state.activePiece.x > move.targetX) {
-              engine.moveLeft();
+            moveTries = 0;
+            while (engine.state.activePiece.x > move.targetX && moveTries < 10) {
+              if (!engine.moveLeft()) break;
+              moveTries++;
             }
             engine.hardDrop();
             spookyAudio.playHardDrop();
