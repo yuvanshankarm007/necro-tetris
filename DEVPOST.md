@@ -1,8 +1,8 @@
 # Devpost Submission: Defrag84 — The Autonomous Cloud Memory Garbage Collector
 
 ## 📌 Project Overview
-- **Project Name**: Defrag84: The Autonomous Cloud Memory Garbage Collector
-- **Tagline**: Resurrecting 1984 2D bin-packing and MS-DOS DEFRAG to solve modern Kubernetes container memory bloat and LLM KV-cache fragmentation with an autonomous multi-agent Kiro Crew.
+- **Project Name**: Defrag84: Autonomous Cloud Memory Garbage Collector
+- **Tagline**: What if Tetris defragmented real cloud memory? Resurrecting 1984 2D bin-packing & MS-DOS DEFRAG to solve Kubernetes and LLM KV-cache memory bloat with an AI Kiro Crew.
 - **Hackathon**: Kiroween 2026
 - **Category**: Resurrection ("Bring your favorite dead technology back to life. Reimagine obsolete tech with today’s innovations or solving tomorrow’s problems.")
 - **Target Bonus Prizes**:
