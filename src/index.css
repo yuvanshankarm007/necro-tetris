@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-bg-crt: #040905;
+    --color-phosphor-green: #33ff66;
+    --color-phosphor-amber: #ffaa00;
+    --color-blood-red: #ff2a4b;
+    --color-spectral-cyan: #00f0ff;
+  }
+
+  body {
+    background-color: #030704;
+    color: #e2e8f0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    overflow-x: hidden;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* CRT Screen Effect Overlay */
+.crt-screen {
+  position: relative;
+  overflow: hidden;
+}
+
+.crt-screen::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  z-index: 20;
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+}
+
+.crt-screen::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: radial-gradient(circle at center, transparent 65%, rgba(0, 0, 0, 0.65) 100%);
+  pointer-events: none;
+  z-index: 21;
+}
+
+/* Phosphor Glows */
+.phosphor-glow-green {
+  text-shadow: 0 0 5px rgba(51, 255, 102, 0.8), 0 0 12px rgba(51, 255, 102, 0.4);
+}
+
+.phosphor-glow-amber {
+  text-shadow: 0 0 5px rgba(255, 170, 0, 0.8), 0 0 12px rgba(255, 170, 0, 0.4);
+}
+
+.phosphor-glow-blood {
+  text-shadow: 0 0 5px rgba(255, 42, 75, 0.8), 0 0 12px rgba(255, 42, 75, 0.4);
+}
+
+.phosphor-glow-spectral {
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.8), 0 0 12px rgba(0, 240, 255, 0.4);
+}
+
+/* Subtle CRT Flicker */
+@keyframes crt-flicker {
+  0% { opacity: 0.985; }
+  50% { opacity: 1; }
+  52% { opacity: 0.97; }
+  54% { opacity: 1; }
+  80% { opacity: 0.99; }
+  100% { opacity: 1; }
+}
+
+.crt-flicker {
+  animation: crt-flicker 0.15s infinite;
+}
+
+/* Screen Shake for Hard Drops and Exorcisms */
+@keyframes shake-screen {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  20% { transform: translate(-2px, 0px) rotate(-0.5deg); }
+  40% { transform: translate(2px, 1px) rotate(0.5deg); }
+  60% { transform: translate(-1px, 2px) rotate(0deg); }
+  80% { transform: translate(1px, -1px) rotate(0.5deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+.screen-shake {
+  animation: shake-screen 0.22s ease-in-out;
+}

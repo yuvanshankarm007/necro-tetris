@@ -1,0 +1,34 @@
+{
+  "name": "NecroBlocks Ghostly Council",
+  "version": "1.0.0",
+  "description": "Multi-agent crew powering the tactical co-pilot, dynamic adversary curses, and atmospheric narration for NecroBlocks.",
+  "agents": [
+    {
+      "id": "architect-ghost",
+      "name": "The Architect's Ghost",
+      "role": "Tactical Co-Pilot & Grandmaster Solver",
+      "config": "./architect-ghost.json"
+    },
+    {
+      "id": "poltergeist",
+      "name": "The Poltergeist",
+      "role": "Chaos Adversary & Spellcaster",
+      "config": "./poltergeist.json"
+    },
+    {
+      "id": "gravedigger",
+      "name": "The Gravedigger",
+      "role": "Crypt Narrator & System Historian",
+      "config": "./gravedigger.json"
+    }
+  ],
+  "collaboration_mode": "asynchronous_event_driven",
+  "event_triggers": [
+    "game_start",
+    "piece_spawn",
+    "line_clear",
+    "combo_streak",
+    "near_death",
+    "game_over"
+  ]
+}

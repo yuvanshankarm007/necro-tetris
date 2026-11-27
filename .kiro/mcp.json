@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "necro-tetris-mcp": {
+      "command": "node",
+      "args": ["./src/mcp/server.js"],
+      "description": "Model Context Protocol bridge allowing external Kiro agents to inspect board matrix, calculate optimal moves, and cast Battle Gaiden curses.",
+      "tools": [
+        {
+          "name": "get_board_state",
+          "description": "Returns current 10x20 matrix representation, active piece, hold piece, and active curses."
+        },
+        {
+          "name": "suggest_move",
+          "description": "Uses Dellacherie heuristics to recommend the best rotation and target column for the active tetromino."
+        },
+        {
+          "name": "cast_curse",
+          "description": "Allows the Poltergeist agent to trigger a specific curse (fog_of_war, poltergeist_shift, soul_inversion, tombstone_crumble)."
+        },
+        {
+          "name": "get_graveyard_stats",
+          "description": "Returns lifetime score, total lines cleared (exorcised), back-to-back count, and curse survival rate."
+        }
+      ]
+    }
+  }
+}
